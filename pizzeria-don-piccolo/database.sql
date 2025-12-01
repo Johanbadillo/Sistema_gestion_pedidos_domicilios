@@ -90,6 +90,7 @@ CREATE TABLE domicilio (
     id_repartidor INT not null,
     dirrecion VARCHAR(255) not null,
     costo_domicilio DOUBLE not null,
+    total_final DOUBLE not null,
     descripcion VARCHAR(255) not null,
     hora_salida DATETIME not null,
     hora_entrega DATETIME not null,
@@ -173,8 +174,8 @@ INSERT INTO detalle_pedido (id_pedido, id_pizza, cantidad, subtotal) VALUES
 (1, 1, 1, 0);
 
 -- 11. Domicilio (entrega)
-INSERT INTO domicilio (id_pedido, id_repartidor, dirrecion, costo_domicilio, descripcion, hora_salida, hora_entrega, distancia_aproximada) VALUES
-(1, 3, 'Calle 45 # 23-15, Barrio Norte', 0, 'Conjunto cerrado, portería avisa', '2025-12-01 19:30:00', '2025-12-01 19:50:00', 4.8);
+INSERT INTO domicilio (id_pedido, id_repartidor, dirrecion, costo_domicilio, total_final, descripcion, hora_salida, hora_entrega, distancia_aproximada) VALUES
+(1, 3, 'Calle 45 # 23-15, Barrio Norte', 0, 0, 'Conjunto cerrado, portería avisa', '2025-12-01 19:30:00', '2025-12-01 19:50:00', 4.8);
 
 -- 12. Pago
 INSERT INTO pago (metodo, id_pedido, descripcion) VALUES
