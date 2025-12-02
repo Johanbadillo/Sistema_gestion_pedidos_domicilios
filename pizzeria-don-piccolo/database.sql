@@ -50,7 +50,7 @@ CREATE TABLE ingredientes (
     id INT PRIMARY KEY AUTO_INCREMENT not null,
     nombre VARCHAR(50) not null,
     stock INT not null,
-    precio INT not null
+    precio_unidad INT not null
 );
 
 CREATE TABLE detalle_pizza (
@@ -67,6 +67,7 @@ CREATE TABLE pedidos (
     id INT PRIMARY KEY AUTO_INCREMENT not null,
     id_cliente INT not null,
     fecha DATE not null,
+    hora time not NULL,
     estado ENUM('pendiente', 'en preparación', 'entregado', 'cancelado') not null,
     total DOUBLE not null,
     descripcion VARCHAR(255) not null,
@@ -88,7 +89,7 @@ CREATE TABLE domicilio (
     id INT PRIMARY KEY AUTO_INCREMENT not null,
     id_pedido INT not null,
     id_repartidor INT not null,
-    dirrecion VARCHAR(255) not null,
+    direccion VARCHAR(255) not null,
     costo_domicilio DOUBLE not null,
     total_final DOUBLE not null,
     descripcion VARCHAR(255) not null,
@@ -111,73 +112,155 @@ CREATE TABLE pago (
                 INSERSION DE DATOS                          
 -----------------------------------------------------------
 
--- 1. Zonas
+-- ZONAS
 INSERT INTO zona (nombre) VALUES 
-('florida'), 
-('giron'), 
-('bucaramanga');
+('Florida'), ('Girón'), ('Cabecera'), ('Sotomayor'), ('Provenza'), ('La Cumbre');
 
--- 2. Personas (base para clientes, repartidores y trabajadores)
+-- PERSONAS (30 personas reales - base para todo)
 INSERT INTO persona (nombre, apellido, documento, tipoDocumento) VALUES
-('Juan José', 'Pérez Gómez', '1037654321', 'cc'),
-('María Camila', 'López Ruiz', '23456789', 'cc'),
-('Carlos Andrés', 'Ramírez Soto', '987654321', 'cc'),
-('Laura Valentina', 'García Mendoza', '1122334455', 'cc'),
-('Pedro José', 'Morales Díaz', '5566778899', 'cc');
+('Juan José',        'Pérez Gómez',      '1037654321', 'cc'),
+('María Camila',     'López Ruiz',       '1002345678', 'cc'),
+('Carlos Andrés',    'Ramírez Soto',     '9876543210', 'cc'),
+('Laura Valentina',  'García Mendoza',   '1122334455', 'cc'),
+('Pedro José',       'Morales Díaz',     '5566778899', 'cc'),
+('Ana Sofía',        'Hernández Vega',   '6677889900', 'cc'),
+('Diego Armando',    'Martínez Castro',  '1234567890', 'cc'),
+('Valeria',          'Torres Ospina',    '9988776655', 'cc'),
+('Camilo Andrés',    'Ríos Salazar',     '1112223334', 'cc'),
+('Luis Miguel',      'Gómez Arias',      '2223334445', 'cc'),
+('Felipe',           'Vargas Ortiz',     '3334445556', 'cc'),
+('Daniela',          'Quintero Bedoya',  '4445556667', 'cc'),
+('Santiago',         'Castro Jiménez',   '5556667778', 'cc'),
+('Valentina',        'Rojas Peña',       '6667778889', 'cc'),
+('Mateo',            'Silva Ortiz',      '7778889990', 'cc'), 
+('Andrés Felipe',    'Ortiz Ramírez',    '8889990001', 'cc'),
+('Sofía Alejandra',  'Ruiz Mendoza',     '9990001112', 'cc'),
+('Nicolás',          'Bedoya Castro',    '1112223335', 'cc'),
+('Isabella',         'Gómez Salazar',    '2223334446', 'cc'),
+('Sebastián',        'Pérez Ospina',     '3334445557', 'cc'),
+('Gabriela',         'López Vargas',     '4445556668', 'cc'),
+('Alejandro',        'Morales Quintero', '5556667779', 'cc'),
+('Catalina',         'Hernández Ríos',   '6667778890', 'cc'),
+('Julián',           'Martínez Silva',   '7778889901', 'cc'),
+('Emma',             'Torres Bedoya',    '8889990012', 'cc'),
+('Samuel',           'García Ortiz',     '9990001123', 'cc'),
+('Lucía',            'Ramírez Peña',     '1112223345', 'cc'),
+('Martín',           'Castro Gómez',     '2223334456', 'cc'),
+('Sara',             'Vargas Mendoza',   '3334445567', 'cc'),
+('Emilio',           'Ríos Castro',      '4445556678', 'cc');
 
--- 3. Clientes
+-- CLIENTES (las primeras 20 personas son clientes)
 INSERT INTO clientes (id, tipoCliente) VALUES
-(1, 'Frecuente'),
-(2, 'Ocasional');
+(1,'frecuente'),(2,'frecuente'),(3,'ocasional'),(4,'nuevo'),(5,'frecuente'),
+(6,'ocasional'),(7,'frecuente'),(8,'nuevo'),(9,'frecuente'),(10,'ocasional'),
+(11,'frecuente'),(12,'nuevo'),(13,'ocasional'),(14,'frecuente'),(15,'frecuente'),
+(16,'ocasional'),(17,'nuevo'),(18,'frecuente'),(19,'ocasional'),(20,'frecuente');
 
--- 4. Repartidores
+-- REPARTIDORES (personas 21 al 25)
 INSERT INTO repartidores (id, zona, estado) VALUES
-(3, 1, 'disponible'),
-(4, 2, 'disponible');
+(21,1,'disponible'),(22,2,'disponible'),(23,3,'no_disponible'),(24,4,'disponible'),(25,5,'disponible');
 
--- 5. Trabajador (cajero o cocinero)
+-- TRABAJADORES (personas 26 al 30)
 INSERT INTO trabajadores (id, tipo_trabajador, fecha_ingreso) VALUES
-(5, 'Cocinero', '2024-03-15 08:00:00');
+(26,'cajero','2023-03-15 08:00:00'),
+(27,'cocinero','2022-07-20 07:30:00'),
+(28,'cocinero','2023-11-10 07:45:00'),
+(29,'cajero','2024-01-05 09:00:00'),
+(30,'gerente','2021-06-01 10:00:00');
 
--- 6. Ingredientes
-INSERT INTO ingredientes (nombre, stock, precio) VALUES
-('Queso Mozzarella', 150, 8000),
-('Pepperoni', 80, 12000),
-('Champiñones', 100, 6000),
-('Salsa de tomate', 200, 4000),
-('Jamon', 90, 10000);
-
--- 7. Pizzas
+-- PIZZAS (12 variedades)
 INSERT INTO pizza (nombre, tamaño, precio, tipo_pizza) VALUES
-('Margarita', 'mediana', 0, 'clasica'),
-('Pepperoni Lovers', 'grande', 0, 'especial'),
-('Vegetariana Deluxe', 'pequeña', 0, 'vegetariana');
+('Margarita',           'mediana',  28900, 'clasica'),
+('Hawaiana',            'grande',   39900, 'clasica'),
+('Pepperoni',           'pequeña',  25900, 'clasica'),
+('Vegetariana Deluxe',  'mediana',  34900, 'vegetariana'),
+('Cuatro Quesos',       'grande',   44900, 'especial'),
+('Carnívora',           'grande',   49900, 'especial'),
+('Pollo Champiñones',   'mediana',  37900, 'clasica'),
+('Napolitana',          'pequeña',  26900, 'clasica'),
+('Mexicana Picante',    'grande',   45900, 'especial'),
+('Barbacoa BBQ',        'grande',   47900, 'especial'),
+('Pollo BBQ',           'mediana',  38900, 'clasica'),
+('Hawaiana Especial',   'grande',   42900, 'clasica');
 
--- 8. Detalle de ingredientes por pizza (detalle_pizza)
+-- INGREDIENTES
+INSERT INTO ingredientes (nombre, stock, precio_unidad) VALUES
+('Queso Mozzarella',250,8500),('Salsa Tomate',400,4200),('Pepperoni',150,13000),
+('Jamón',120,11000),('Piña',100,6500),('Champiñones',180,7000),
+('Aceitunas',90,5500),('Pimentón',130,4500),('Cebolla',140,3500),
+('Pollo Desmechado',100,16000),('Carne Molida',90,14000),('Queso Cheddar',120,9000),
+('Bacon',80,18000),('Chorizo',70,15000),('Jalapeños',60,8000);
+
+-- DETALLE DE INGREDIENTES POR PIZZA
 INSERT INTO detalle_pizza (id_ingredientes, id_pizza, cantidad, subtotal) VALUES
-(1, 1, 2, 0),
-(4, 1, 1, 0), 
-(1, 2, 2, 0),
-(2, 2, 1, 0),
-(1, 3, 1, 0),
-(3, 3, 1, 0),
-(4, 3, 1, 0);
+(1,1,400,17000),(2,1,200,4200),
+(1,2,500,21250),(3,2,300,39000),(4,2,300,33000),(5,2,400,26000),
+(1,3,400,17000),(2,3,200,4200),(3,3,500,65000),
+(1,4,500,21250),(6,4,300,21000),(7,4,200,11000),(8,4,300,13500),(9,4,300,10500),
+(1,5,600,25500),(12,5,300,27000),
+(1,6,500,21250),(3,6,400,52000),(11,6,400,56000),(14,6,200,30000);
 
--- 9. Pedido de ejemplo (domicilio)
-INSERT INTO pedidos (id_cliente, fecha, estado, total, descripcion, tipo_pedido) VALUES
-(1, '2025-12-01', 'en preparación', 0, 'Bien caliente con bordes crujientes', 'domicilio');
+-- 14 PEDIDOS
+INSERT INTO pedidos (id_cliente, fecha, hora, estado, total, descripcion, tipo_pedido) VALUES
+(1,'2025-11-01','18:30:00','entregado',68800,'Sin piña por favor','domicilio'),
+(2,'2025-11-02','19:15:00','entregado',70800,'Extra queso en ambas','local'),
+(3,'2025-11-03','20:00:00','entregado',155800,'Para fiesta de 15','domicilio'),
+(5,'2025-11-05','19:45:00','entregado',97800,'Cumpleaños infantil','domicilio'),
+(7,'2025-11-08','20:30:00','entregado',147800,'Con gaseosas incluidas','domicilio'),
+(10,'2025-11-10','19:00:00','en preparación',94800,'Urgente por favor','domicilio'),
+(12,'2025-11-12','18:20:00','entregado',127700,'Para ver fútbol','domicilio'),
+(15,'2025-11-15','13:30:00','entregado',53800,'Almuerzo familiar','local'),
+(18,'2025-11-18','20:15:00','cancelado',49900,'Cliente cambió de idea','domicilio'),
+(20,'2025-11-20','12:45:00','entregado',86800,'Dos grandes carnívoras','local'),
+(1,'2025-11-22','19:30:00','entregado',73800,'Sin cebolla','domicilio'),
+(4,'2025-11-25','18:00:00','entregado',28900,'Solo una margarita','local'),
+(6,'2025-11-28','20:45:00','entregado',107800,'Para reunión de trabajo','domicilio'),
+(9,'2025-12-01','19:10:00','entregado',127900,'Cena navideña','domicilio');
 
--- 10. Detalle del pedido
+-- DETALLE DE PEDIDOS 
 INSERT INTO detalle_pedido (id_pedido, id_pizza, cantidad, subtotal) VALUES
-(1, 2, 1, 0),
-(1, 1, 1, 0),
-(1, 1, 1, 0);
+(1,2,1,39900),(1,1,1,28900),
+(2,5,1,44900),(2,6,1,49900),
+(3,6,2,99800),(3,10,1,47900),(3,2,1,39900),
+(4,6,1,49900),(4,10,1,47900),
+(5,6,2,99800),(5,5,1,44900),
+(6,10,1,47900),(6,5,1,44900),
+(7,6,1,49900),(7,10,1,47900),(7,2,1,39900),
+(8,4,1,34900),(8,7,1,37900),
+(10,6,2,99800),(10,5,1,44900),
+(11,6,1,49900),(11,2,1,39900),
+(12,1,1,28900),(12,4,1,34900),(12,9,1,45900),
+(13,6,1,49900),(13,10,1,47900),(13,2,1,39900),
+(14,6,2,99800),(14,5,1,44900),(14,3,1,25900);
 
--- 11. Domicilio (entrega)
-INSERT INTO domicilio (id_pedido, id_repartidor, dirrecion, costo_domicilio, total_final, descripcion, hora_salida, hora_entrega, distancia_aproximada) VALUES
-(1, 3, 'Calle 45 # 23-15, Barrio Norte', 0, 0, 'Conjunto cerrado, portería avisa', '2025-12-01 19:30:00', '2025-12-01 19:50:00', 4.8);
+-- DOMICILIOS (solo los de tipo domicilio)
+INSERT INTO domicilio (id_pedido, id_repartidor, direccion, costo_domicilio, total_final, descripcion, hora_salida, hora_entrega, distancia_aproximada) VALUES
+(1,21,'Calle 45 #23-15 Florida',6000,74800,'Portería avisa','2025-11-01 18:45:00','2025-11-01 19:10:00',4.8),
+(3,22,'Carrera 33 Cabecera',8000,163800,'Edificio alto apt 802','2025-11-03 20:15:00','2025-11-03 20:50:00',7.2),
+(4,23,'Transversal 93 Girón',9000,106800,'Conjunto cerrado','2025-11-05 20:00:00','2025-11-05 20:35:00',9.1),
+(5,24,'Calle 56 Sotomayor',5000,152800,'Casa azul','2025-11-08 20:45:00','2025-11-08 21:15:00',6.3),
+(6,25,'Carrera 27 Provenza',7000,101800,'Local comercial','2025-11-10 19:15:00','2025-11-10 19:40:00',5.7),
+(7,21,'Calle 104 Florida',6500,134200,'Condominio','2025-11-12 18:35:00','2025-11-12 19:05:00',8.1),
+(11,22,'Calle 200 La Cumbre',9500,137200,'Casa grande','2025-11-22 19:45:00','2025-11-22 20:20:00',10.8);
 
--- 12. Pago
-INSERT INTO pago (metodo, id_pedido, descripcion) VALUES
-('efectivo', 1, 'Cliente paga con $80000, devuelve $3200');
+-- PAGOS
+INSERT INTO pago (id_pedido, metodo, descripcion) VALUES
+(1,'efectivo','Pagó con 80000, devuelta 5200'),
+(2,'tarjeta','Débito Bancolombia'),
+(3,'app','Pago por Nequi'),
+(4,'efectivo','Pagó con 100000'),
+(5,'app','Daviplata'),
+(6,'tarjeta','Crédito'),
+(7,'efectivo','Exacto'),
+(8,'app','Rappi Pay'),
+(10,'efectivo','Pagó con 100000'),
+(11,'tarjeta','Débito'),
+(12,'app','Nequi'),
+(13,'efectivo','Pagó con 150000'),
+(14,'tarjeta','Crédito');
 
+-- ¡LISTO!
+SELECT '¡BASE DE DATOS COMPLETA Y REALISTA CARGADA CON ÉXITO!' AS mensaje,
+    (SELECT COUNT(*) FROM pedidos) AS total_pedidos,
+    (SELECT COUNT(*) FROM detalle_pedido) AS items_vendidos,
+    (SELECT COUNT(*) FROM persona) AS total_personas;

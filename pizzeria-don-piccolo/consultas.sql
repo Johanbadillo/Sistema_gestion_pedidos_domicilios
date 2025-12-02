@@ -35,6 +35,23 @@ DELIMITER ;
 
 call top_pizzas;
 
+-- 3. Pedidos por repartidor (JOIN).
+DELIMITER //
+CREATE PROCEDURE pedidos_repartidor(in v_repartidor int)
+BEGIN
+SELECT p.id  as pedido_id, concat(pe.nombre,' ',pe.apellido) as nombre_completo, 
+p.estado as estado_pedido, p.descripcion as descripcion_pedido
+from domicilio d left join persona pe on d.id_repartidor=pe.id left join pedidos p on d.id_pedido=p.id
+WHERE d.id_repartidor=v_repartidor
+ORDER BY nombre_completo DESC;
+END; //
+DELIMITER ;
+
+call pedidos_repartidor(id_repartidor)
+
+
+-- 4. Promedio de entrega por zona (AVG y JOIN).
+
 
 
 
