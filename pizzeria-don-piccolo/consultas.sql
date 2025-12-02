@@ -51,16 +51,31 @@ call pedidos_repartidor(id_repartidor)
 
 
 -- 4. Promedio de entrega por zona (AVG y JOIN).
+DELIMITER //
+CREATE PROCEDURE promedio_zona()
+BEGIN
+SELECT z.nombre as nombre_zona, AVG(d.costo_domicilio) as promedio_ganado, COUNT(*) as cantidad_entregas
+FROM domicilio d left join repartidores r on d.id_repartidor=r.id left join zona z on r.zona=z.id 
+GROUP BY z.nombre 
+ORDER BY promedio_ganado DESC;
+END; //
+DELIMITER ;
 
+call promedio_zona;
 
+-- 5. Clientes que gastaron más de un monto (HAVING).
+DELIMITER //
+CREATE PROCEDURE clientes_vip(in v_monto_minimo double)
+begin
+SELECT concat(p.nombre,' ',p.apellido) as nombre_completo, SUM(IF(pe.tipo_pedido='local',pe.total,COALESCE(d.total_final))) as total_gastado
+FROM persona p LEFT JOIN pedidos pe on p.id=pe.id_cliente LEFT JOIN domicilio d on d.id_pedido=p.id 
+GROUP BY nombre_completo 
+HAVING total_gastado>=v_monto_minimo 
+ORDER BY total_gastado DESC;
+end; //
+DELIMITER ;
 
-
-
-
-
-
-
-
+call clientes_vip(monto_De_busqueda)
 
 
 
