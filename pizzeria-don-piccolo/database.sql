@@ -115,6 +115,13 @@ CREATE TABLE pago (
 
 alter table ingredientes add column stock_minimo int default 30;
 
+CREATE TABLE IF NOT EXISTS historial_precios (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        id_pizza INT,
+        precio_anterior DOUBLE,
+        precio_nuevo DOUBLE,
+        fecha_cambio DATETIME);
+
 -----------------------------------------------------------
 --                INSERSION DE DATOS                          
 -----------------------------------------------------------

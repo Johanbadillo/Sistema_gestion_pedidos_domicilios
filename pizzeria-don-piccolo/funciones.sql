@@ -5,6 +5,7 @@ Procedimiento para cambiar automáticamente el estado del pedido a “entregado�
 
 
 -- esctructura function
+/*
 delimiter //
 create function descuento_producto(id_detalle int )
 returns double
@@ -26,7 +27,7 @@ return v_subtotal*0.95;
 end if;
 end; //
 delimiter ;
-
+*/
 -- mensaje de error definido por el usuario.
 signal sqlstate '45000' set message_text='mensaje de guia para ver porque lugares se ejecutabien la funcion'; 
 
