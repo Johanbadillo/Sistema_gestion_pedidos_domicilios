@@ -35,3 +35,130 @@ El archivo [vistas.sql](pizzeria-don-piccolo/vistas.sql) contiene el script para
 ## consultas.sql
 El archivo [consultas.sql](pizzeria-don-piccolo/consultas.sql) contiene el script para crear consultas SQL complejas utilizando procedimientos almacenados (procedures). Estas consultas permiten obtener información detallada sobre las operaciones de la pizzería, como el historial de pedidos, la eficiencia de los repartidores y las preferencias de los clientes. Actualmente, este archivo incluye varias consultas que proporcionan información valiosa para la gestión del negocio.
 
+me puedes añadir al readme la explicacion de mi mer y lo añadas
+ 
+
+```mermaid
+---
+config:
+  layout: elk
+  look: neo
+  theme: neo-dark
+---
+erDiagram
+	direction TB
+	persona {
+		INT id PK ""  
+		varchar nombre  ""  
+		varchar apellido  ""  
+		varchar documento  ""  
+		enum tipoDocumento  "cc,ce"  
+	}
+	clientes {
+		int id Pk,FK ""  
+		varchar tipoCliente  ""  
+	}
+	repartidores {
+		int id PK,FK ""  
+		int zona FK""  
+		enum estado "disponible/no_disponible"
+	}
+	trabajadores {
+		int id PK,FK ""
+		varchar tipo_trabajador ""
+		date fecha_ingreso ""
+
+	}
+	zona {
+		int id pk ""
+		varchar nombre ""
+	}
+	pizza {
+		int id Pk ""  
+		varchar nombre  ""  
+		enum tamaño  "pequeña/mediana/grande"
+		double precio ""
+		enum tipo_pizza "vegetariana/especial/clasica"  
+	}
+	ingredientes {
+		int id PK ""  
+		varchar nombre  ""  
+		int stock  ""  
+		int precio  ""  
+	}
+	detalle_pizza {
+		int id PK ""     
+		int id_ingredientes FK ""  
+		int id_pizza FK ""  
+		int cantidad ""
+		double subtotal ""
+	}
+	pedidos {
+		int id PK ""  
+		int id_cliente FK ""
+		date fecha ""
+		enum estado "pendiente, en preparación, entregado, cancelado"
+		double total_final ""
+		double recibido ""
+		enum estado_pago "pagado/pendiente/abonado"
+		varchar  descripcion ""
+		enum tipo_pedido "local/domicilio"
+	}
+	detalle_pedido {
+		int id PK ""  
+		int id_pedido FK ""
+		int id_pizza  FK ""
+		int cantidad ""
+		double subtotal ""  
+
+	}
+	domicilio {
+		int id PK ""  
+		int id_pedido FK ""  
+		int id_repartidor FK ""
+		varchar dirrecion ""
+		double costo_domicilio ""
+		varchar descripcion ""  
+		date hora_salida ""
+		date hora_entrega ""
+		double distancia_aproximada "se encuentra en metros"
+
+	}
+
+	pago{
+		int id PK ""
+		enum metodo "efectivo/tarjeta/app"
+		int id_pedido FK ""
+		varchar descripcion ""
+	}
+
+
+
+	persona||..||clientes:"  "
+	persona||..||repartidores:"  "
+	persona||..||trabajadores:"  "
+	zona||--|{repartidores:"  "
+	ingredientes||--|{detalle_pizza:"  "
+	pizza|o--|{detalle_pizza:"  "
+	clientes|o--|{pedidos:"  "
+	pedidos|o--|{detalle_pedido:"  "
+	pizza|o--|{detalle_pedido:"  "
+	pedidos||--|{domicilio:"  "
+	repartidores||--|{domicilio:"  "
+	pedidos||--|{pago:"  "
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
