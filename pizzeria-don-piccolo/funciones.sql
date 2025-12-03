@@ -84,32 +84,19 @@ deterministic
 reads sql data
 
 BEGIN
-DECLARE v_precio_venta double;
-DECLARE v_costo double;
-DECLARE v_ganancia double;
-DECLARE v_fecha_diaria date; -- Creo que es opcional 
-
-
-
-SELECT id_id
--- sacar el costo ingredientes x pizza
-SELECT COALESCE(SUM(dp.subtotal),0) into v_costo
-from pizza pi LEFT JOIN detalle_pizza dp on pi.id=dp.id_pizza 
-GROUP BY dp.id_pizza; -- funcial pero genera un error la data esta incompleta pero al invocar una pizza sin detalle_pizza pierde el orden
-
-SELECT sum(total) 
-GROUP BY fecha -- agrupar por dia para saber el total x dia
-
-
-SELECT SUM(dp.subtotal), p.precio,SUM(dp.subtotal)-p.precio into v_costo, v_precio_venta,v_ganancia
-from detalle_pizza dp left join pizza p on dp.id_pizza=p.id GROUP BY id_pizza ;
-
+DECLARE v_neto_diario double;
+select sum(dp.subtotal)-sum(dpi.subtotal) into v_neto_diario 
+from detalle_pedido dp 
+left join pizza p on dp.id_pizza=p.id 
+left join detalle_pizza dpi on p.id=dpi.id_pizza
+left join pedidos ped on ped.id=dp.id_pedido where fecha=v_fecha_diaria;
+RETURN v_neto_diario;
 
 end; //
 DELIMITER ;
 
-
-
+select calculo_ganancia('fecha');
+select calculo_ganancia('2025-11-01');
 
 
 
