@@ -39,49 +39,6 @@ SELECT id, nombre, stock, stock_minimo FROM ingredientes WHERE stock<=stock_mini
 
 SELECT * FROM alerta_stock;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+-- vista nombre repartidores
+CREATE VIEW nombre_repartidor AS
+select r.id, concat(per.nombre,' ',per.apellido) as nombre_completo from repartidores r left join persona per on r.id=per.id;

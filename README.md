@@ -1,12 +1,27 @@
-# Sistema de Gestión de Pedidos y Domicilios para Pizzería Don Piccolo
+# 🍕 Sistema de Gestión de Pedidos y Domicilios - Pizzería Don Piccolo
 
-## Sistema de Gestión de Pedidos y Domicilios para Pizzería Don Piccolo
+<p align="center">
+  <img src="https://img.shields.io/badge/MySQL-4479A1.svg?style=for-the-badge&logo=mysql&logoColor=white" alt="MySQL">
+  <img src="https://img.shields.io/badge/SQL-4479A1?style=for-the-badge&logo=sqlite&logoColor=white" alt="SQL">
+  <img src="https://img.shields.io/badge/status-en%20desarrollo-yellow?style=for-the-badge" alt="Estado">
+</p>
 
-Este repositorio contiene el desarrollo de un sistema de base de datos relacional en MySQL para la Pizzería Don Piccolo. El objetivo principal es gestionar de manera eficiente los clientes, pizzas, ingredientes, pedidos, repartidores, domicilios y pagos, optimizando el proceso de ventas desde el registro de un pedido hasta su entrega y pago.
+<p align="center">
+  <strong>Un sistema completo de base de datos relacional para gestionar pedidos, domicilios, clientes y repartidores en una pizzería.</strong>
+</p>
 
-**Estado actual del proyecto:** El repositorio se encuentra en construcción. Se han implementado las tablas base, relaciones y algunas consultas, pero los requerimientos relacionados con disparadores (triggers) y funciones/procedimientos están en desarrollo. Se actualizará progresivamente para cumplir con todos los requerimientos funcionales descritos a continuación.
+---
 
-## Estructura del Proyecto
+## 🚀 Características del Sistema
+
+- Gestión completa de clientes, pedidos y domicilios  
+- Control de inventario de ingredientes y pizzas personalizadas  
+- Seguimiento de repartidores y zonas de entrega  
+- Reportes avanzados: pizzas más vendidas, clientes VIP, ganancias por zona, etc.  
+- Procedimientos almacenados optimizados para consultas frecuentes  
+- Vistas y triggers (en desarrollo)
+
+## 📁 Estructura del Proyecto
 
 El proyecto sigue la siguiente estructura:
 
@@ -18,6 +33,35 @@ El proyecto sigue la siguiente estructura:
 ├── vistas.sql        # Script para creación de vistas, (view).
 ├── consultas.sql     # Script para creación de consultas SQL complejas(procedure).
 └── README.md         # Este archivo con documentación.
+```
+
+
+
+## 📊 Consultas Destacadas (Procedimientos Almacenados)
+
+| # | Nombre                          | Descripción                                                                 | Ejemplo de uso                              |
+|---|----------------------------------|----------------------------------------------------------------------------|---------------------------------------------|
+| 1 | `clientes_pedidos_rango`         | Clientes con pedidos en un rango de fechas                                 | `CALL clientes_pedidos_rango('2025-01-01', '2025-12-31');` |
+| 2 | `top_pizzas`                     | Ranking de las pizzas más vendidas con ingresos totales                   | `CALL top_pizzas;`                          |
+| 3 | `pedidos_repartidor`             | Todos los pedidos entregados por un repartidor                             | `CALL pedidos_repartidor(21);`              |
+| 4 | `promedio_zona`                  | Ganancias y cantidad de pedidos por zona (ordenado de mayor a menor)      | `CALL promedio_zona;`                       |
+| 5 | `clientes_vip`                   | Clientes que han gastado más de X monto                                    | `CALL clientes_vip(100000);`                |
+| 6 | `busqueda_parcial`               | Búsqueda de pizzas por coincidencia parcial en el nombre                   | `CALL busqueda_parcial('hawai');`           |
+| 7 | `clientes_frecuentes`            | Clientes con más de 5 pedidos (clientes fieles)                            | `CALL clientes_frecuentes();`               |
+
+
+## 🛠️ Requisitos Previos
+
+- MySQL 8.0+ o MariaDB 10.6+
+
+## 🚀 Cómo Usar el Proyecto
+
+1.  Clona o descarga este repositorio
+2.  Abre tu cliente MySQL y crea una base de datos:
+```sql
+CREATE DATABASE pizzeria_don_piccolo;
+
+USE pizzeria_don_piccolo;
 ```
 
 ## Ejemplos de Consultas
@@ -50,7 +94,7 @@ Esta es la estructura para conocer los pedidos que han sido realizados por un re
 
 Pero para conocer el id de los repartidores que se encuentra disponible ejecute esta consulta para conocer el id y el nombre de los repartidores con su zona asignada.
 ```sql
-select r.id, concat(per.nombre,' ',per.apellido) as nombre_completo from repartidores r left join persona per on r.id=per.id;
+select * from nombre_repartidor;
 ```
 Ejemplo con la data encontrada en [database.sql](pizzeria-don-piccolo/database.sql):
 ```sql
@@ -96,4 +140,10 @@ Si no se ejecutan los scripts en el orden correcto, pueden generarse errores de 
 
 
 
+## **👨‍💻 Autor** 
+<div align="center">
 
+
+**Hecho con 🍕 y ❤️ para la Pizzería Don Piccolo**
+
+<div>
