@@ -110,7 +110,13 @@ CREATE TABLE pago (
 );
 
 -----------------------------------------------------------
-                INSERSION DE DATOS                          
+--                Modificaciones data                        
+-----------------------------------------------------------
+
+alter table ingredientes add column stock_minimo int default 30;
+
+-----------------------------------------------------------
+--                INSERSION DE DATOS                          
 -----------------------------------------------------------
 
 -- ZONAS
