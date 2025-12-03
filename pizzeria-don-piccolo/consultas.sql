@@ -12,7 +12,8 @@ Subconsulta para obtener los clientes frecuentes (más de 5 pedidos mensuales).
 DELIMITER //
 CREATE PROCEDURE clientes_pedidos_rango(in v_fecha_inicio date,in v_fecha_fin date)
 begin
-SELECT concat(p.nombre,' ',p.apellido) as nombre_completo, pe.total, pe.descripcion, pe.tipo_pedido from pedidos pe left join persona p on pe.id_cliente=p.id
+SELECT concat(p.nombre,' ',p.apellido) as nombre_completo, pe.total, pe.descripcion, pe.tipo_pedido 
+from pedidos pe left join persona p on pe.id_cliente=p.id
 where DATE(pe.fecha) BETWEEN v_fecha_inicio and v_fecha_fin
 ORDER BY pe.fecha DESC;
 END; //
@@ -83,10 +84,11 @@ call clientes_vip(100000);
 
 
 -- 6. Búsqueda por coincidencia parcial de nombre de pizza (LIKE).
+DROP PROCEDURE if EXISTS busqueda_parcial;
 DELIMITER //
 CREATE PROCEDURE busqueda_parcial(in v_nombre_parcial VARCHAR(50))
 begin
-SELECT nombre, tipo_pizza from pizza where nombre LIKE concat('%',v_nombre_parcial,'%');
+SELECT nombre, tipo_pizza, precio from pizza where nombre LIKE concat('%',v_nombre_parcial,'%');
 end; //
 DELIMITER ;
 
@@ -95,6 +97,7 @@ call busqueda_parcial('s');
 
 
 -- 7. Subconsulta para obtener los clientes frecuentes (más de 5 pedidos mensuales).
+DROP PROCEDURE if EXISTS clientes_frecuentes;
 DELIMITER //
 CREATE PROCEDURE clientes_frecuentes()
 begin

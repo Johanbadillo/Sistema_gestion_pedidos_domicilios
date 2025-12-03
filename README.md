@@ -29,7 +29,9 @@ Estas consultas son procedimientos almacenados de la base de datos que se encuen
 ```sql
 call clientes_pedidos_rango('fecha inicial','fecha final');
 ```
-Esta es la estrutura para hacer la busqueda y desde este punto tu puedes definir el rango de la busqueda que vas a hacer el tipo de dato que debes es ingresar una fecha en formato (año-mes-dia) ejemplo:
+Esta es la estrutura para hacer la busqueda y desde este punto tu puedes definir el rango de la busqueda que vas a hacer el tipo de dato que debes es ingresar una fecha en formato (año-mes-dia):
+
+Ejemplo con la data encontrada en [database.sql](pizzeria-don-piccolo/database.sql):
 ```sql
 call clientes_pedidos_rango('2025-01-01','2025-12-31');
 ```
@@ -47,19 +49,41 @@ call pedidos_repartidor(id_repartidor);
 Esta es la estructura para conocer los pedidos que han sido realizados por un repartidor para tener un mejor control de tanto los pedidos como los repartidores para llevar un registro de ellos.
 
 Pero para conocer el id de los repartidores que se encuentra disponible ejecute esta consulta para conocer el id y el nombre de los repartidores con su zona asignada.
-- 4. Promedio de entrega por zona
+```sql
+select r.id, concat(per.nombre,' ',per.apellido) as nombre_completo from repartidores r left join persona per on r.id=per.id;
+```
+Ejemplo con la data encontrada en [database.sql](pizzeria-don-piccolo/database.sql):
+```sql
+call pedidos_repartidor(21);
+```
+- 4. Promedio de entrega por zona:
+
+Esta consulta promedia la cantidad de dinero ganado por zona, con el total de pedidos entregados en cada zona, con su respectivo nombre y se puede visualizar en que zonas tienen mas ganancias porque se encuentra ordenada de mayor a menor las ganancias.
 ```sql
 call promedio_zona;
 ```
-- 5. Clientes que gastaron más de un monto
+- 5. Clientes que gastaron más de un monto:
+
+Esta consulta nos trae una tabla con los clientes que han gastado mas de un monto definido por el usuario, con su respectivo nombre, apellido y el total gastado.
 ```sql
 call clientes_vip(monto_De_busqueda);
 ```
-- 6. Búsqueda por coincidencia parcial de nombre de pizza
+Ejemplo con la data encontrada en [database.sql](pizzeria-don-piccolo/database.sql):
+```sql
+call clientes_vip(100000);
+```
+- 6. Búsqueda por coincidencia parcial de nombre de pizza:
+
+Esta consulta nos trae una tabla con las pizzas que coincidan con el nombre parcial que se ingrese, con su respectivo nombre, tipo de pizza y precio.
 ```sql
 call busqueda_parcial('nombre para la busqueda parcial');
 ```
-- 7. Subconsulta para obtener los clientes frecuentes
+Ejemplo con la data encontrada en [database.sql](pizzeria-don-piccolo/database.sql):
+```sql
+call busqueda_parcial('s');
+```
+- 7. Subconsulta para obtener los clientes frecuentes:
+Esta consulta nos trae una tabla con los clientes que han realizado mas de 5 pedidos, con su respectivo nombre, apellido y la cantidad de pedidos realizados.
 ```sql
 call clientes_frecuentes();
 ```

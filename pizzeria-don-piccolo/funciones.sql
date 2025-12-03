@@ -100,6 +100,9 @@ select calculo_ganancia('2025-11-01');
 
 
 
+-- 3. Procedimiento para cambiar automáticamente el estado del pedido a “entregado” cuando se registre la hora de entrega.
+
+
 
 
 
