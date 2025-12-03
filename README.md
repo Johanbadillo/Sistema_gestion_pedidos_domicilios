@@ -22,7 +22,7 @@ El proyecto sigue la siguiente estructura:
 
 ## Ejemplos de Consultas
 
-Estas consultas son procedimientos almacenados de la base de datos que se encuentra en disponibles en ([consultas.sql](pizzeria-don-piccolo/consultas.sql)):
+Estas consultas son procedimientos almacenados de la base de datos que se encuentra en disponibles en [consultas.sql](pizzeria-don-piccolo/consultas.sql):
 
 - 1. Clientes con pedidos entre dos fechas:
 
@@ -83,18 +83,16 @@ Ejemplo con la data encontrada en [database.sql](pizzeria-don-piccolo/database.s
 call busqueda_parcial('s');
 ```
 - 7. Subconsulta para obtener los clientes frecuentes:
+
 Esta consulta nos trae una tabla con los clientes que han realizado mas de 5 pedidos, con su respectivo nombre, apellido y la cantidad de pedidos realizados.
 ```sql
 call clientes_frecuentes();
 ```
+---
+### NOTA
+Se necesita tener MySQL instalado y configurado para ejecutar los scripts SQL proporcionados en este repositorio. Asegúrate de revisar y adaptar los scripts según tus necesidades específicas y el entorno de tu base de datos.
 
-
-
-
-
-
-
-
+Si no se ejecutan los scripts en el orden correcto, pueden generarse errores de dependencia entre tablas y relaciones. Se recomienda seguir el orden de los archivos tal como se presentan en la estructura del proyecto.
 
 
 
