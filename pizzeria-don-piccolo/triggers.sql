@@ -43,9 +43,6 @@ JOIN detalle_pizza d ON p.id = d.id_pizza
 LEFT JOIN ingredientes i ON d.id_ingredientes = i.id
 WHERE p.id = 1;
 
-UPDATE ingredientes
-SET stock = stock - d.cantidad
-WHERE id = d.id_ingredientes;
 -- ahora agarra el stock del ingrediente y verifica si hay stock suficiente para restar la cantidad necesaria
 -- si no hay stock suficiente lanza un error
 
